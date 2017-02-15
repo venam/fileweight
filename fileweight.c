@@ -16,7 +16,7 @@
  *
  * Usage:
  *   cc -lm -o fileweight fileweight.c
- *   fileweight some-file
+ *   ./fileweight some-file
  *
  * Licensed under the terms of the WTFPL v2.
  * http://wtfpl.net/txt/copying
@@ -24,14 +24,26 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <err.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <math.h>
-#include <sys/param.h>
+#ifndef _WIN32
+#include <unistd.h>
+#include <sys/param.h> /* MAXPATHLEN */
+#else
+#include <io.h>        /* io.h does mostly replace unistd.h */
+#include <sys/types.h> /* off_t support */
 
-#define atoms_per_bit      31750000
-#define mg_per_iron_atom   9.2732796 * exp(-20)
+/* Windows does not have MAXPATHLEN. */
+#define MAXPATHLEN         256
+
+/* Nor does it have strlcpy(). */
+#define strlcpy(x, y, z) strncpy_s((x), (z), (y), _TRUNCATE)
+#endif
+
+
+#define ATOMS_PER_BIT      31750000
+#define MG_PER_IRON_ATOM   9.2732796 * exp(-20)
+
 
 void show_syntax(char *argv[]) {
     /* Someone made a mistake. */
@@ -44,7 +56,7 @@ int main(int argc, char *argv[]) {
 #ifdef __OpenBSD__
     if (-1 == pledge("stdio rpath", NULL)) {
         /* Don't waste priviledges. */
-        err(EXIT_FAILURE, "pledge");
+        return(EXIT_FAILURE);
     }
 #endif
 
@@ -68,7 +80,7 @@ int main(int argc, char *argv[]) {
     file_bytes = lseek(fd_inputfile, 0, SEEK_END);
     close(fd_inputfile);
 
-    long double weight = file_bytes * mg_per_iron_atom * atoms_per_bit * 1000 * 8;
+    long double weight = file_bytes * MG_PER_IRON_ATOM * ATOMS_PER_BIT * 1000 * 8;
     printf("The file %s weighs about %e grams.\n\n", argv[1], weight);
 
     return(EXIT_SUCCESS);

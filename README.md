@@ -9,7 +9,7 @@ Based on [IBM's research](http://gizmodo.com/5875674/ibm-figures-out-how-many-at
 ## Usage
 
     cc -lm -o fileweight fileweight.c
-    fileweight some-file
+    ./fileweight some-file
 
 ## License
 
