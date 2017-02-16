@@ -8,7 +8,7 @@
  *
  * This application tries to estimate a medium
  * weight for the input file, based on a value of
- * (62.5+1)/2 = 31.75 million iron atoms per bit.
+ * (62.5-1)/2 = 30.75 million iron atoms per bit.
  *
  * Usage:
  *   cc -o fileweight fileweight.c
@@ -37,7 +37,7 @@
 #endif
 
 
-#define ATOMS_PER_BIT      31750000
+#define ATOMS_PER_BIT      30750000
 #define MG_PER_IRON_ATOM   9.2732796E-20
 
 
