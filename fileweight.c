@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     close(fd_inputfile);
 
     long double weight = file_bytes * MG_PER_IRON_ATOM * ATOMS_PER_BIT / 1000 * CHAR_BIT;
-    printf("The file %s weighs about %e grams.\n\n", argv[1], weight);
+    printf("The file %s weighs about %Le grams.\n\n", argv[1], weight);
 
     return(EXIT_SUCCESS);
 }
