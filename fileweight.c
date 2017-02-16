@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
     file_bytes = lseek(fd_inputfile, 0, SEEK_END);
     close(fd_inputfile);
 
-    long double weight = file_bytes * MG_PER_IRON_ATOM * ATOMS_PER_BIT * 1000 * CHAR_BIT;
+    long double weight = file_bytes * MG_PER_IRON_ATOM * ATOMS_PER_BIT / 1000 * CHAR_BIT;
     printf("The file %s weighs about %e grams.\n\n", argv[1], weight);
 
     return(EXIT_SUCCESS);
