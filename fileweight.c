@@ -25,9 +25,9 @@
 #ifndef _WIN32
 #include <unistd.h>
 #include <sys/param.h> /* MAXPATHLEN */
-#ifdef __linux__
-/* Linux has no concept of strlcpy(). */
-#define strlcpy(x, y, z) strncpy(x, y, z)
+#ifndef strlcpy
+/* Linux has no concept of strlcpy(). */    
+#define strlcpy(dst,src,sz) snprintf((dst), (sz), "%s", (src))
 #endif
 #else /* ifdef WIN32 */
 #include <io.h>        /* io.h does mostly replace unistd.h */
