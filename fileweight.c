@@ -10,12 +10,8 @@
  * weight for the input file, based on a value of
  * (62.5+1)/2 = 31.75 million iron atoms per bit.
  *
- * Known shortcomings:
- *  - Currently, only platforms with a byte length
- *    of 8 are supported. Sorry, DEC!
- *
  * Usage:
- *   cc -lm -o fileweight fileweight.c
+ *   cc -o fileweight fileweight.c
  *   ./fileweight some-file
  *
  * Licensed under the terms of the WTFPL v2.
@@ -25,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <math.h>
+#include <limits.h>
 #ifndef _WIN32
 #include <unistd.h>
 #include <sys/param.h> /* MAXPATHLEN */
@@ -42,7 +38,7 @@
 
 
 #define ATOMS_PER_BIT      31750000
-#define MG_PER_IRON_ATOM   9.2732796 * exp(-20)
+#define MG_PER_IRON_ATOM   9.2732796E-20
 
 
 void show_syntax(char *argv[]) {
@@ -80,7 +76,7 @@ int main(int argc, char *argv[]) {
     file_bytes = lseek(fd_inputfile, 0, SEEK_END);
     close(fd_inputfile);
 
-    long double weight = file_bytes * MG_PER_IRON_ATOM * ATOMS_PER_BIT * 1000 * 8;
+    long double weight = file_bytes * MG_PER_IRON_ATOM * ATOMS_PER_BIT * 1000 * CHAR_BIT;
     printf("The file %s weighs about %e grams.\n\n", argv[1], weight);
 
     return(EXIT_SUCCESS);
