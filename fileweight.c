@@ -34,7 +34,7 @@
 #include <sys/types.h> /* off_t support */
 
 /* Windows does not have MAXPATHLEN. */
-#define MAXPATHLEN         256
+#define MAXPATHLEN _MAX_PATH
 
 /* Nor does it have strlcpy(). */
 #define strlcpy(x, y, z) strncpy_s((x), (z), (y), _TRUNCATE)
